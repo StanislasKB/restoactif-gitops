@@ -1,0 +1,12 @@
+@extends('admin.components.app')
+@section("title")
+    Utilisateurs
+@endsection
+@section('page_css')
+@endsection
+@section('main_content')
+@include('admin.pages.users.layout.page_title')
+@include('admin.pages.users.layout.user_table')
+@endsection
+@section("page_js")
+@endsection
