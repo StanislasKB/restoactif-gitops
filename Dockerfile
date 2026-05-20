@@ -1,8 +1,14 @@
 # Stage 1: Composer dependencies
-FROM composer:2 AS vendor
+FROM php:8.3-cli-alpine AS vendor
 WORKDIR /app
+
+# Installer Composer + extensions PHP nécessaires pour composer install
+RUN apk add --no-cache git unzip libzip-dev \
+    && docker-php-ext-install zip \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-req=ext-*
 
 # Stage 2: Node assets 
 # FROM node:20-alpine AS frontend

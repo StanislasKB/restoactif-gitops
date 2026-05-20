@@ -22,8 +22,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/restoactif:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/restoactif:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/restoactif-gitops:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/restoactif-gitops:${{ github.sha }}
       
       - name: Update GitOps repo
         uses: actions/checkout@v4
