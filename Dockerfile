@@ -7,7 +7,7 @@ RUN apk add --no-cache git unzip libzip-dev \
     && docker-php-ext-install zip \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY composer.json composer.lock ./
+COPY . .
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-req=ext-*
 
 # Stage 2: Node assets 
@@ -29,8 +29,7 @@ COPY . .
 COPY --from=vendor /app/vendor ./vendor
 # COPY --from=frontend /app/public/build ./public/build
 
-RUN composer dump-autoload --optimize \
-    && chown -R www-data:www-data storage bootstrap/cache \
+RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
