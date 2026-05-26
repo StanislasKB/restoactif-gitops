@@ -170,7 +170,7 @@ class AuthController extends Controller
         ]);
         if (Auth::attempt($request->only(['email', 'password']))) {
             $request->session()->regenerate();
-            if (auth()->user()->email_verified_at) {
+            if (true) {
                 if (auth()->user()->role == 0) {
                     return redirect()->intended(route('admin.dashboard.view'));
                 } else {
