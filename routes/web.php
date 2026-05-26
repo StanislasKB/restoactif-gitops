@@ -21,7 +21,7 @@ Route::get('/apropos', [LandingController::class, 'about_view'])->name('landing.
 Route::get('/contact', [LandingController::class, 'contact_view'])->name('landing.contact.accueil');
 Route::post('/contact', [ContactController::class, 'contact'])->name('landing.contact.post');
 Route::get('/faq', [LandingController::class, 'faq_view'])->name('landing.faq.accueil');
-Route::get('/politique-confidentialite', [LandingController::class, 'privacy_view'])->name('landing.faq.accueil');
+Route::get('/politique-confidentialite', [LandingController::class, 'privacy_view'])->name('landing.privacy.accueil');
 Route::get('/evenements', [LandingController::class, 'event_view_sort'])->name('landing.events.accueil');
 Route::get('/evenement/detail/{id}', [LandingController::class, 'event_detail_view'])->name('landing.events.detail');
 Route::get('/menus', [LandingController::class, 'menu_view_sort'])->name('landing.menu.accueil');
