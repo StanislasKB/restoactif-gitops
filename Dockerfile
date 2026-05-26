@@ -2,23 +2,19 @@
 FROM php:8.3-cli-alpine AS vendor
 WORKDIR /app
 
-# Installer Composer + extensions PHP nécessaires pour composer install
 RUN apk add --no-cache git unzip libzip-dev \
     && docker-php-ext-install zip \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY . .
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-req=ext-*
+RUN composer install \
+    --no-dev \
+    --no-scripts \
+    --optimize-autoloader \
+    --prefer-dist \
+    --ignore-platform-req=ext-*
 
-# Stage 2: Node assets 
-# FROM node:20-alpine AS frontend
-# WORKDIR /app
-# COPY package.json package-lock.json ./
-# RUN npm ci
-# COPY . .
-# RUN npm run build
-
-# Stage 3: PHP runtime
+# Stage 2: PHP runtime
 FROM php:8.3-fpm-alpine
 WORKDIR /var/www/html
 
@@ -27,7 +23,6 @@ RUN apk add --no-cache nginx supervisor postgresql-dev mysql-client \
 
 COPY . .
 COPY --from=vendor /app/vendor ./vendor
-# COPY --from=frontend /app/public/build ./public/build
 
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
